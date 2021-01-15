@@ -30,14 +30,13 @@
               v-for="(item, index) in currentCategory"
               :key="index"
             >
-              <van-image :src="item.wap_banner_url" fit="fix" />
+              <van-image :src="item.wap_banner_url" fit="fix" @click="chooseSort(item.id)"/>
               <p>{{ item.name }}</p>
             </van-grid-item>
           </van-grid>
         </template>
       </van-tree-select>
     </div>
-    <div>123</div>
     <barbutton></barbutton>
   </div>
 </template>
@@ -48,34 +47,7 @@ import axios from "axios";
 import api, { CatalogList,CatalogCurrent } from "../assets/config/api";
 import barbutton from '../views/barbutton.vue'
 //首先将要用到的vant组件引入到要使用vant样式的组件中，然后用Vue.use(vant组件)就可以在这个组件中使用了。
-import {
-  Search,
-  Swipe,
-  SwipeItem,
-  Grid,
-  GridItem,
-  Icon,
-  Cell,
-  CellGroup,
-  Card,
-} from "vant";
-import { Image as VanImage } from "vant";
-import { Tabbar, TabbarItem } from "vant";
-import { TreeSelect } from "vant";
 
-Vue.use(TreeSelect);
-Vue.use(Tabbar);
-Vue.use(TabbarItem);
-Vue.use(Card);
-Vue.use(VanImage);
-Vue.use(Search);
-Vue.use(Swipe);
-Vue.use(SwipeItem);
-Vue.use(Grid);
-Vue.use(GridItem);
-Vue.use(Icon);
-Vue.use(Cell);
-Vue.use(CellGroup);
 
 export default {
   name: "sort",
@@ -94,7 +66,7 @@ export default {
   },
   async mounted() {
     let res = await axios.get(api.CatalogList);
-    // console.log(res);
+    console.log(res);
     this.categorylist = res.data.data.categoryList;
     this.bannerimg = res.data.data.currentCategory.banner_url;
     this.currentCategory = res.data.data.currentCategory.subCategoryList;
@@ -117,6 +89,13 @@ export default {
         this.bannerimg = res.data.data.currentCategory.banner_url;
         this.currentCategory = res.data.data.currentCategory.subCategoryList;
     },
+
+    chooseSort:function(id){
+      console.log(id);
+      // 在函数中进行页面跳转
+       this.$router.push({name:'sortid',params: {id:id}})
+
+    }
   },
 };
 </script>
