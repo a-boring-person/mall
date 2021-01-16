@@ -24,6 +24,9 @@ import { TreeSelect } from "vant";
 import { NavBar } from 'vant';
 import { GoodsAction, GoodsActionIcon, GoodsActionButton } from 'vant';
 import { Toast } from 'vant';
+import { Sku } from 'vant';
+
+Vue.use(Sku);
 
 Vue.use(Toast);
 
