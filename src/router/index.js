@@ -5,6 +5,7 @@ import sort from '../views/sort.vue'
 import topic from '../views/topic.vue'
 import currentsort from '../views/currentsort.vue'
 import goodDetail from '../views/goodDetail.vue'
+import cart from '../views/cart.vue'
 
 Vue.use(VueRouter)
 
@@ -48,6 +49,11 @@ const routes = [
       }
     },
     component:goodDetail
+  },
+  {
+    path:'/cart',
+    name:'cart',
+    component:cart
   }
  
 ]

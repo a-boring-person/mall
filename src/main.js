@@ -25,6 +25,10 @@ import { NavBar } from 'vant';
 import { GoodsAction, GoodsActionIcon, GoodsActionButton } from 'vant';
 import { Toast } from 'vant';
 import { Sku } from 'vant';
+import { Checkbox, CheckboxGroup } from 'vant';
+
+Vue.use(Checkbox);
+Vue.use(CheckboxGroup);
 
 Vue.use(Sku);
 
