@@ -9,42 +9,60 @@
             <label for="">满88元免邮费</label>
         </div>
 
-        <div class="content">
-            <!-- <van-checkbox v-model="checked" checked-color="#ee0a24"></van-checkbox> -->
-            <!-- <van-card
-                 :num="item.number"
-                 :price="item.retail_price"
-                 :title="item.goods_name"
-                 :thumb="item.list_pic_url"
-            /> -->
-            <van-checkbox-group v-model="result" >
-                <van-checkbox :name="index" v-for="(item, index) in cartList" :key="index">
-                    <van-card
-                        :num="item.number"
-                        :price="item.retail_price"
-                        :title="item.goods_name"
-                        :thumb="item.list_pic_url"
+        <div class="content" v-for="(item, index) in cartList" :key="index">
+                    <van-checkbox v-model="item.checked" @click='checkedEvent(item)'>
+                     <van-card
+                    :num="item.number"
+                    :price="item.retail_price"
+                    :title="item.goods_name"
+                    :thumb="item.list_pic_url"
                     />
-                </van-checkbox>
-            </van-checkbox-group>
-
+                    </van-checkbox>      
         </div>
+
+        <div class="submit">
+            <van-submit-bar :price="price" button-text="提交订单" @submit="onSubmit">
+                  <van-checkbox v-model="checkedAll">全选</van-checkbox>
+            </van-submit-bar>
+        </div>
+
+        <barbutton></barbutton>
     </div>
+    
 </template>
 <script>
 // import {mapState} from 'vuex';
 import store from 'vuex'
 import axios from 'axios'
 import api from '../assets/config/api'
+import barbutton from '../views/barbutton.vue'
 export default {
+  components: { barbutton },
     data() {
         return {
-            resule:[],
+            
+            
         }
     },
     computed: {
         cartList:function(){
             return this.$store.state.cartList;
+        },
+
+        price:function(){
+            return this.$store.state.cartTotal.checkedGoodsAmount*100;
+        },
+        checkedAll:{
+            get(val){
+            },
+            set(){
+                if (this.$store.state.cartTotal.goodsCount == this.$store.state.cartTotal.checkedGoodsCount) {
+                    return true
+                } else {
+                    return false
+                }
+            }
+
         }
 
     },
@@ -54,6 +72,22 @@ export default {
    
     mounted(){
          console.log(this.cartList)
+    },
+
+    methods: {
+        checkedEvent:function(item){
+            console.log(item)
+            let res = axios.post(api.CartChecked,{isChecked: item.checked,productIds: item.product_id});
+            console.log(res);
+            this.$store.commit('setCarList',res.data.data.cartList)
+            this.$store.commit('setCartTotal',res.data.data.cartTotal)
+            this.$forceUpdate();
+
+
+        },
+        onSubmit:function(){
+
+        }
     },
     
 }
@@ -67,8 +101,10 @@ export default {
             font-size: small;
         }
         .content{
-            .van-card{
+            .van-checkbox__label{
                 display: flex;
+                width: 100%;
+
             }
         }
     }

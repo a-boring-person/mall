@@ -80,6 +80,7 @@ import api from "../assets/config/api";
 import Vue from "vue";
 import { Lazyload } from "vant";
 import { Toast } from "vant";
+import vuex from 'vuex'
 Vue.use(Lazyload);
 
 let sku = {
